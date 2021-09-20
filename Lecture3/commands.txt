@@ -6,12 +6,14 @@ python example.py
 
 alter-topic-partition
 
-bin/flume-ng agent --conf conf --conf-file twitter-to-file.conf --name twitter-to-file-agent -Dflume.root.logger=INFO,console
-
+# run new docker container "flume-kafka" in network "confluent"
 docker run --network confluent -it flume-kafka
-docker run --network confluent -it flume-kafka /bin/bash
+
+# run new docker container as above, but with /in/bash as entry point
 docker run --network confluent -it --entrypoint /bin/bash flume-kafka
 
+# create flume agent KafkaFileAgent
 flume-ng agent -c /opt/flume/conf -f /var/tmp/kafka-to-file.conf -n KafkaFileAgent -Dflume.root.logger=INFO,console
 
+# open bin bash in existing docker container
 docker exec -it kind_bardeen /bin/bash
